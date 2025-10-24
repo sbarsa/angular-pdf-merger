@@ -25,6 +25,12 @@ export class Merger {
     const page1 = pdf1.getPage(0);
     const page2 = pdf2.getPage(0);
 
+    const mediaBox1 = page1.getMediaBox();
+    const mediaBox2 = page2.getMediaBox();
+
+
+
+
     // Embed the pages
     const [embeddedPage1, embeddedPage2] = await Promise.all([
       mergedPdf.embedPage(page1),
@@ -39,17 +45,17 @@ export class Merger {
 
     // Embed both pages side-by-side, rotated 90 degrees
     landscapePage.drawPage(embeddedPage1, {
-      x: 0,
-      y: 0,
-      width: portraitWidth,
-      height: portraitHeight,
+      x: -mediaBox1.x,
+      y: -mediaBox1.y,
+      width: mediaBox1.width,
+      height: mediaBox1.height,
     });
 
     landscapePage.drawPage(embeddedPage2, {
-      x: portraitWidth,
-      y: 0,
-      width: portraitWidth,
-      height: portraitHeight,
+      x: portraitWidth - mediaBox2.x,
+      y: -mediaBox2.y,
+      width: mediaBox2.width,
+      height: mediaBox2.height,
     });
 
     // Save the merged PDF
