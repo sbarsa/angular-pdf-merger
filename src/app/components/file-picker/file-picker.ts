@@ -9,9 +9,10 @@ import {Component, ElementRef, viewChild} from '@angular/core';
 export class FilePicker {
   private fileInput = viewChild<ElementRef<HTMLInputElement>>("fileInput");
 
-  getSelectedFile(): File | null {
+  getSelectedFile(): File | undefined{
     const files = this.fileInput()?.nativeElement.files;
-    return files && files.length > 0 ? files[0] : null;
+    return files ? files[0] : undefined;
+
   }
 
 
